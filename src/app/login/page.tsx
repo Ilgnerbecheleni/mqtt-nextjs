@@ -1,11 +1,13 @@
 'use client'
 
 import { useState } from "react";
+import { useRouter } from "next/navigation"; 
+
 
 export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+    const  router = useRouter();
     async function handleLogin(event: React.FormEvent) {
         event.preventDefault();
         // console.log(event)
@@ -22,7 +24,9 @@ export default function Login() {
                 throw new Error("falha no login");
             }
             const data = await response.json();
-            console.log(data);
+            console.log(data.token);
+            localStorage.setItem('token', data.token);
+            router.push('/');
         } catch (error) {
             console.log(error.message);
         }
